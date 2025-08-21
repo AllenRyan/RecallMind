@@ -36,7 +36,7 @@ export default function SignIn() {
         toast.success("Welcome back!");
         router.push('/workspace');
       }
-    } catch (error) {
+    } catch {
       toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
@@ -107,7 +107,7 @@ export default function SignIn() {
 
             <div className="text-center mt-6">
               <p className="text-sm text-gray-600">
-                Don't have an account?{' '}
+                Don&apos;t have an account?{' '}
                 <Link href="/register" className="text-blue-600 hover:underline">
                   Sign up
                 </Link>

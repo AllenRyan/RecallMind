@@ -202,12 +202,12 @@ async function summarizeContent(
       sourceType: processed.sourceType,
       originalTitle: processed.title,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error("AI Summarization error:", err);
     console.error("Error details:", {
       contentLength: processed.content?.length,
       title: processed.title,
-      error: err.message
+      error: err instanceof Error ? err.message : String(err)
     });
     
     // Return a default error response

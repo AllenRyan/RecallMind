@@ -2,7 +2,15 @@ import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import { Trash2 } from "lucide-react"
 
-const DeleteButton = ({summary, setDeletingId, fetchSummaries, setError, deletingId}: any) => {
+interface DeleteButtonProps {
+  summary: { _id: string };
+  setDeletingId: (id: string | null) => void;
+  fetchSummaries: () => Promise<void>;
+  setError: (error: string) => void;
+  deletingId: string | null;
+}
+
+const DeleteButton = ({summary, setDeletingId, fetchSummaries, setError, deletingId}: DeleteButtonProps) => {
     return ( 
             <Button
                 variant="ghost"

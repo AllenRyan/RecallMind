@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useSession, signOut } from 'next-auth/react';
 import { Button } from '@/components/ui/button';
-import { Brain, LogOut, Library, Plus, User, ChevronDown, ArrowRight } from 'lucide-react';
+import { Brain, LogOut, Library, Plus, User, ArrowRight } from 'lucide-react';
 import {
   DropdownMenu,
   DropdownMenuContent,

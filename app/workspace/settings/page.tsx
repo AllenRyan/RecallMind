@@ -9,7 +9,7 @@ export default function SettingsPage() {
         </div>
         <h2 className="text-2xl font-bold text-foreground mb-2">Coming Soon</h2>
         <p className="text-muted-foreground">
-          We're working hard to bring you an amazing settings experience. Check back later!
+          We&apos;re working hard to bring you an amazing settings experience. Check back later!
         </p>
       </div>
     </div>

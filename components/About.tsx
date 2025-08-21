@@ -7,7 +7,7 @@ const About = () => {
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">About <span className="text-blue-700">RecallMind</span></h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              We're revolutionizing how people interact with information in the digital age.
+              We&apos;re revolutionizing how people interact with information in the digital age.
             </p>
           </div>
 
@@ -15,7 +15,7 @@ const About = () => {
             <div>
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Our <span className="text-blue-700">Mission</span></h3>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                In today's information-rich world, we believe everyone deserves tools that help them capture,
+                In today&apos;s information-rich world, we believe everyone deserves tools that help them capture,
                 understand, and recall knowledge effortlessly. RecallMind transforms the way you interact with content
                 across all platforms.
               </p>

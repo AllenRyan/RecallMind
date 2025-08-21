@@ -68,7 +68,7 @@ const Testimonials = () => {
                         />
                       ))}
                     </div>
-                    <p className="text-gray-600 mb-4 leading-relaxed">"{t.text}"</p>
+                    <p className="text-gray-600 mb-4 leading-relaxed">&ldquo;{t.text}&rdquo;</p>
                     <div className="flex items-center space-x-3">
                       <div
                         className={`w-10 h-10 ${t.color.split(" ")[0]} rounded-full flex items-center justify-center`}

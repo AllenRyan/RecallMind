@@ -1,6 +1,10 @@
 import { Badge } from "@/components/ui/badge"
 
-const SummaryTags = ({tags}: any) => {
+interface SummaryTagsProps {
+  tags: string[];
+}
+
+const SummaryTags = ({tags}: SummaryTagsProps) => {
     return ( 
         <div className="flex flex-wrap gap-1">
             {tags.map((tag: string) => (

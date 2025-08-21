@@ -79,11 +79,7 @@ export async function POST(request: NextRequest) {
 
 // GET Summaries
 
-// Define query parameters type for MVP requirements
-interface SearchQuery {
-    search?: string;
-}
-
+// GET Summaries
 export async function GET(request: NextRequest) {
     try {
         // Check if user is authenticated
@@ -104,7 +100,7 @@ export async function GET(request: NextRequest) {
         await connectToDatabase();
 
         // Build query filters for user's personal library
-        const filters: any = { userId: session.user.id };
+        const filters: Record<string, unknown> = { userId: session.user.id };
 
         // Add search functionality - search by keyword across title, summary, and tags
         if (search && search.trim()) {

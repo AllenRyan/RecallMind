@@ -20,7 +20,7 @@ interface Summary {
   sourceType: "youtube" | "article" | "text"
 }
 
-export function SummaryLibrary() {
+function SummaryLibrary() {
   const [summaries, setSummaries] = useState<Summary[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [deletingId, setDeletingId] = useState<string | null>(null)

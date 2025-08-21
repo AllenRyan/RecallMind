@@ -20,7 +20,13 @@ export function AddContentForm() {
     setIsLoading(true)
 
     try {
-      let requestBody: any = {};
+      let requestBody: {
+        sourceType: 'youtube' | 'article' | 'text';
+        input: string;
+      } = {
+        sourceType: 'youtube',
+        input: ''
+      };
       
       switch (activeTab) {
         case 'youtube':
