@@ -73,7 +73,7 @@ RecallMind is a modern knowledge management platform that helps you save, proces
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/recallmind.git
+   git clone https://github.com/allenryan/recallmind.git
    cd recallmind
    ```
 
