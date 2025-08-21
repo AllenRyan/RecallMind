@@ -5,7 +5,8 @@
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?logo=typescript)](https://www.typescriptlang.org/)
 [![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-green?logo=mongodb)](https://www.mongodb.com/)
-[![OpenAI](https://img.shields.io/badge/OpenAI-API-orange?logo=openai)](https://openai.com/)
+[![OpenAI](https://img.shields.io/badge/OpenAI-SDK-orange?logo=openai)](https://openai.com/)
+[![Gemini](https://img.shields.io/badge/Gemini-Ai-orange?logo=gemini)](https://gemini.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue?logo=tailwindcss)](https://tailwindcss.com/)
 
 ## 🚀 Overview
