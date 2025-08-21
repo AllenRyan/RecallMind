@@ -13,7 +13,7 @@
 
 RecallMind is a modern knowledge management platform that helps you save, process, and organize content from multiple sources. Using advanced AI technology, it transforms YouTube videos, web articles, and text notes into structured summaries with key insights, making information retrieval and knowledge management effortless.
 
-**🔗 Live Demo**: [Your Deployed URL Here]
+**🔗 Live Demo**: (https://recall-mind.vercel.app/)
 
 ## ✨ Features
 
