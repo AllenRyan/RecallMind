@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { Calendar, Loader2, AlertCircle, Search } from "lucide-react"
+import { Calendar, Loader2, AlertCircle, Search, CheckSquare, Square } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -18,6 +18,7 @@ interface Summary {
   tags: string[]
   createdAt: string
   sourceType: "youtube" | "article" | "text"
+
 }
 
 function SummaryLibrary() {
@@ -58,6 +59,8 @@ function SummaryLibrary() {
     setIsSearching(true)
     fetchSummaries(searchQuery)
   }
+
+ 
 
   if (isLoading) {
     return (
@@ -157,10 +160,7 @@ function SummaryLibrary() {
                           <Loader2 className="w-6 h-6 animate-spin text-primary" />
                         </div>
                       )}
-                      <p className="text-muted-foreground text-sm line-clamp-2 leading-relaxed">
-                        {summary.tldr}
-                      </p>
-
+                      
                       <div className="flex flex-wrap gap-1">
                         <SummaryTags tags={summary.tags} />
                       </div>

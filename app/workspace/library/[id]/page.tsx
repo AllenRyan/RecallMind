@@ -4,14 +4,16 @@ import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { ArrowLeft, Calendar, Loader2, AlertCircle } from "lucide-react"
+import { ArrowLeft, Calendar, Loader2, AlertCircle, CheckCircle } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
+
 
 interface Summary {
   _id: string
   title: string
   tldr: string
-  summary: string[]
+  bulletPoints: string[]
+  summary: string
   tags: string[]
   createdAt: string
   type: "youtube" | "article" | "text"
@@ -111,15 +113,31 @@ export default function SummaryDetail() {
           <p className="text-muted-foreground">{summary.tldr}</p>
         </div>
 
+           {/* Bullet Points */}
+        <div>
+          <h3 className="font-semibold text-lg mb-2 text-gray-900">
+            Key Takeaways
+          </h3>
+          <ul className="list-none space-y-2">
+            { summary?.bulletPoints && summary?.bulletPoints.length > 0 ? (
+              summary.bulletPoints.map((point, i) => (
+                <li key={i} className="flex items-start gap-2">
+                  <CheckCircle className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
+                  <span className="text-gray-700">{point}</span>
+                </li>
+              ))
+            ) : (
+              <p className="text-gray-500">No key points available</p>
+            )}
+          </ul>
+        </div>
+
+
         <div className="space-y-4">
           <h3 className="text-xl font-semibold text-foreground">Summary</h3>
-          <ul className="space-y-3 list-disc pl-5">
-            {summary.summary?.map((point, index) => (
-              <li key={index} className="text-muted-foreground">
-                {point}
-              </li>
-            ))}
-          </ul>
+          <p className="text-muted-foreground whitespace-pre-line">
+            {summary.summary}
+          </p>
         </div>
       </div>
     </div>

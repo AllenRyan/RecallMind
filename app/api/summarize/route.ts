@@ -1,83 +1,43 @@
 import { authOptions } from "@/lib/auth";
 import { connectToDatabase } from "@/lib/db";
-import { processAndSummarize } from "@/lib/services/contentSummarizer";
-import Summary from "@/models/Summary";
+import { processAndSummarize, type SourceType } from "@/lib/services/contentSummarizer";
+import  Summary  from "@/models/Summary";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-// Define request body type
-interface SummarizeRequest {
-  sourceType: 'youtube' | 'article' | 'text';
+type SummarizeRequest = {
+  sourceType: SourceType;
   input: string;
   title?: string;
-}
+};
 
 export async function POST(request: NextRequest) {
-    try {
-        // Check if user is authenticated
-        const session = await getServerSession(authOptions);
-
-        if (!session?.user) {
-            return NextResponse.json(
-                { error: "Authentication required" },
-                { status: 401 }
-            );
-        }
-
-        // Parse and validate request body
-        const body = await request.json() as SummarizeRequest;
-        
-        // Process and summarize content
-        const result = await processAndSummarize(
-            body.sourceType,
-            body.input,
-            body.title
-        );
-         
-        // connect database
-
-         await connectToDatabase()  
-
-        // Save summary to database
-        const summary = await Summary.create({
-            userId: session.user.id,
-            source: body.input, // The original URL or text
-            content: result.summary, // The full summary content
-            title: result.originalTitle || `Summary ${new Date().toLocaleString()}`,
-            sourceType: body.sourceType,
-            tldr: result.tldr,
-            bulletPoints: result.bulletPoints || [],
-            summary: result.summary,
-            tags: result.tags || []
-        }).catch((error) => {
-            console.error("Database error:", error);
-            throw new Error("Failed to save summary: " + error.message);
-        });
-
-        return NextResponse.json(
-            { success: true, data: summary },
-            { status: 201 }
-        );
-
-    } catch (error) {
-        console.error("Summarization API error:", error);
-        
-        const errorMessage = error instanceof Error 
-            ? error.message 
-            : "An unexpected error occurred";
-
-        return NextResponse.json(
-            { 
-                error: "Summarization failed",
-                message: errorMessage
-            },
-            { status: 500 }
-        );
+  try {
+    // ✅ Check if user is authenticated
+    const session = await getServerSession(authOptions);
+    if (!session?.user) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
     }
+
+    // ✅ Parse request
+    const body = (await request.json()) as SummarizeRequest;
+
+    // ✅ Generate summary (but don't save)
+    const result = await processAndSummarize(body.sourceType, body.input, body.title);
+
+    return NextResponse.json({
+      success: true,
+      data: result
+    });
+  } catch (error) {
+    console.error("Summarize API error:", error);
+    const message = error instanceof Error ? error.message : "Unexpected error";
+    return NextResponse.json({ success: false, error: message }, { status: 500 });
+  }
 }
 
 
-// GET Summaries
+
 
 // GET Summaries
 export async function GET(request: NextRequest) {

@@ -2,6 +2,7 @@ import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import { YoutubeTranscript } from "youtube-transcript";
 import OpenAI from "openai";
+import { ChatCompletionChunk } from 'openai/resources/chat';
 
 // Initialize Gemini (via OpenAI SDK)
 const client = new OpenAI({
@@ -164,64 +165,86 @@ Return only valid JSON in this format:
 async function summarizeContent(
   processed: ProcessedContent
 ): Promise<SummaryResult> {
+  const DEFAULT_ERROR_RESULT: SummaryResult = {
+    tldr: "Failed to generate summary",
+    bulletPoints: ["An error occurred while generating the summary"],
+    summary: "We encountered an error while processing your request. Please try again later.",
+    tags: ["error"],
+    sourceType: processed.sourceType,
+    originalTitle: processed.title,
+  };
+
   try {
     const prompt = buildPrompt(processed.content, processed.title);
-    const completion = await client.chat.completions.create({
-      model: "gemini-2.5-flash", 
+    
+    const response = await client.chat.completions.create({
+      model: "gemini-2.5-flash",
       messages: [
-        { 
-          role: "system", 
-          content: "You are a helpful assistant that generates structured JSON output." 
+        {
+          role: "system",
+          content: `You are a helpful assistant that summarizes content into a structured JSON format. 
+          Always return a valid JSON object with these exact fields:
+          {
+            "tldr": "A very brief summary (1-2 sentences)",
+            "bulletPoints": ["Point 1", "Point 2", "Point 3"],
+            "summary": "A detailed summary of the content",
+            "tags": ["tag1", "tag2"]
+          }`
         },
         { 
           role: "user", 
-          content: prompt 
-        }
+          content: `Please summarize the following content in JSON format:
+          ${prompt}`
+        },
       ],
       response_format: { type: "json_object" },
-      temperature: 0.5, // Slightly lower temperature for more consistent JSON
-      max_tokens: 1000,
+      temperature: 0.3,
+      max_tokens: 2000,
     });
 
-    const responseContent = completion.choices[0]?.message?.content;
+    const responseContent = response.choices[0]?.message?.content;
     if (!responseContent) {
-      throw new Error("Empty response from AI model");
+      throw new Error('No content in AI response');
     }
 
-    let parsed;
-    try {
-      parsed = JSON.parse(responseContent);
-    } catch (parseError) {
-      console.error("Failed to parse AI response:", responseContent);
-      const errorMessage = parseError instanceof Error ? parseError.message : 'Unknown error during JSON parsing';
-      throw new Error(`Failed to parse AI response: ${errorMessage}`);
+    // Clean the response and handle potential JSON formatting issues
+    const cleanResponse = responseContent.trim();
+    let jsonContent = cleanResponse;
+
+    // Handle potential JSON wrapped in code blocks or markdown
+    const jsonMatch = cleanResponse.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
+    if (jsonMatch && jsonMatch[1]) {
+      jsonContent = jsonMatch[1];
     }
 
+    // Parse the JSON response
+    const parsedResult = JSON.parse(jsonContent);
+    
+    // Return the structured result
     return {
-      ...parsed,
+      tldr: parsedResult.tldr || '',
+      bulletPoints: Array.isArray(parsedResult.bulletPoints) ? parsedResult.bulletPoints : [],
+      summary: parsedResult.summary || '',
+      tags: Array.isArray(parsedResult.tags) ? parsedResult.tags : [],
       sourceType: processed.sourceType,
-      originalTitle: processed.title,
+      originalTitle: processed.title
     };
-  } catch (err: unknown) {
-    console.error("AI Summarization error:", err);
-    console.error("Error details:", {
+  } catch (error) {
+    const errorMessage = error instanceof Error ? error.message : "Unknown error";
+    console.error("Summarization error:", {
+      error: errorMessage,
       contentLength: processed.content?.length,
       title: processed.title,
-      error: err instanceof Error ? err.message : String(err)
+      sourceType: processed.sourceType
     });
     
-    // Return a default error response
+    // Return a fallback result with the error message
     return {
-      tldr: "Failed to generate summary",
-      bulletPoints: ["An error occurred while generating the summary"],
-      summary: "We encountered an error while processing your request. Please try again later.",
-      tags: ["error", "unsummarized"],
-      sourceType: processed.sourceType,
-      originalTitle: processed.title,
+      ...DEFAULT_ERROR_RESULT,
+      summary: `Error: ${errorMessage}`
     };
   }
 }
-
 /* ------------------------- UNIFIED ENTRY POINT ------------------------- */
 
 /**

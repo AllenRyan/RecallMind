@@ -60,7 +60,7 @@ export default function WorkspaceLayout({
       >
         <div className="flex flex-col h-full">
           {/* Logo and User */}
-          <div className="space-y-4 py-4 px-4">
+          <div className="space-y-4 py-4 px-4 mt-6">
             <div className="flex items-center justify-between px-2">
               <Link href="/">
               <div className="flex items-center gap-2">
@@ -78,22 +78,6 @@ export default function WorkspaceLayout({
               >
                 <X className="h-5 w-5" />
               </Button>
-            </div>
-
-            {/* User Profile */}
-            <div className="flex items-center gap-3 px-2 py-2">
-              <Avatar>
-                <AvatarImage src={session?.user?.image || undefined} />
-                <AvatarFallback>
-                  {session?.user?.email?.charAt(0).toUpperCase() || 'U'}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex flex-col">
-                <span className="font-medium">{session?.user?.name || 'User'}</span>
-                <span className="text-sm text-muted-foreground truncate">
-                  {session?.user?.email}
-                </span>
-              </div>
             </div>
           </div>
 
@@ -126,29 +110,30 @@ export default function WorkspaceLayout({
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="lg:pl-64">
         {/* Mobile Header */}
-        <div className="sticky top-0 z-40 flex items-center gap-4 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="m-2"
-            onClick={() => setSidebarOpen(true)}
-          >
-            <Menu className="h-5 w-5" />
-          </Button>
+        <div className="fixed top-0 left-0 right-0 z-40 w-full flex items-center justify-between px-4 py-2 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:hidden">
           <div className="flex items-center gap-2">
-            <Brain className="h-6 w-6" />
-            <span className="font-semibold">RecallMind</span>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9"
+              onClick={() => setSidebarOpen(true)}
+            >
+              <Menu className="h-5 w-5" />
+            </Button>
+            <div className="flex items-center gap-2">
+              <Brain className="h-6 w-6 text-blue-600" />
+              <span className="font-semibold">RecallMind</span>
+            </div>
           </div>
         </div>
-
+ 
+      
         {/* Page Content */}
-        <main className="pt-0 px-4 lg:px-8">
+        <main className="mt-14 px-4 lg:pl-64 lg:mt-2">
           {children}
         </main>
-      </div>
     </div>
+    
   )
 }
