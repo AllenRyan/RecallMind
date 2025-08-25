@@ -7,7 +7,7 @@ import { CheckCircle, Loader2, Save, X } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { toast } from "sonner";
 import { Button } from "./ui/button";
-import { useRouter } from "next/navigation";
+
 
 type SummaryType = {
   tldr: string;
@@ -31,7 +31,7 @@ export default function SummaryResult({ source, sourceType, title, onClose }: Su
   const [summary, setSummary] = useState<SummaryType | null>(null);
   const [isSaving, setIsSaving] = useState(false);
   const [isSaved, setIsSaved] = useState(false);
-  const router = useRouter();
+
 
   //  Fetch summary only once
   useEffect(() => {
@@ -213,42 +213,6 @@ export default function SummaryResult({ source, sourceType, title, onClose }: Su
             </Button>
           </div>
         )}
-      </CardContent>
-    </Card>
-  );
-}
-
-
-// Loading skeleton component
-function SummarySkeleton() {
-  return (
-    <Card className="mt-8">
-      <CardHeader>
-        <Skeleton className="h-8 w-48" />
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div>
-          <Skeleton className="h-6 w-32 mb-4" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
-        <div>
-          <Skeleton className="h-6 w-32 mb-4" />
-          <div className="space-y-3">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-center gap-2">
-                <Skeleton className="h-5 w-5 rounded-full" />
-                <Skeleton className="h-4 w-3/4" />
-              </div>
-            ))}
-          </div>
-        </div>
-        <div>
-          <Skeleton className="h-6 w-32 mb-4" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-full mb-2" />
-          <Skeleton className="h-4 w-5/6" />
-        </div>
       </CardContent>
     </Card>
   );

@@ -2,7 +2,7 @@ import { JSDOM } from "jsdom";
 import { Readability } from "@mozilla/readability";
 import { YoutubeTranscript } from "youtube-transcript";
 import OpenAI from "openai";
-import { ChatCompletionChunk } from 'openai/resources/chat';
+
 
 // Initialize Gemini (via OpenAI SDK)
 const client = new OpenAI({
